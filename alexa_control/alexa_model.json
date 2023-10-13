@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "bidouille de merde",
+            "invocationName": "contrôleur chaudière",
             "intents": [
                 {
                     "name": "AMAZON.CancelIntent",
@@ -23,31 +23,62 @@
                     "name": "GPIOControlIntent",
                     "slots": [
                         {
-                            "name": "pin",
-                            "type": "AMAZON.NUMBER"
+                            "name": "device",
+                            "type": "DEVICE_TYPE"
                         },
                         {
                             "name": "status",
-                            "type": "GPIO_STATUS"
+                            "type": "DEVICE_STATUS_TYPE"
                         }
                     ],
                     "samples": [
-                        "positionne la pin {pin} à {status}"
+                        "positionner {device} à {status}"
                     ]
                 }
             ],
             "types": [
                 {
-                    "name": "GPIO_STATUS",
+                    "name": "DEVICE_STATUS_TYPE",
                     "values": [
                         {
                             "name": {
-                                "value": "off"
+                                "value": "on",
+                                "synonyms": [
+                                    "allumé",
+                                    "actif",
+                                    "on"
+                                ]
                             }
                         },
                         {
                             "name": {
-                                "value": "on"
+                                "value": "off",
+                                "synonyms": [
+                                    "éteint",
+                                    "off",
+                                    "inactif"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "DEVICE_TYPE",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "chauffe eau",
+                                "synonyms": [
+                                    "eau chaude"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "boucle",
+                                "synonyms": [
+                                    "e. c. s. "
+                                ]
                             }
                         }
                     ]
@@ -64,15 +95,15 @@
                     },
                     "slots": [
                         {
-                            "name": "pin",
-                            "type": "AMAZON.NUMBER",
+                            "name": "device",
+                            "type": "DEVICE_TYPE",
                             "confirmationRequired": false,
                             "elicitationRequired": false,
                             "prompts": {}
                         },
                         {
                             "name": "status",
-                            "type": "GPIO_STATUS",
+                            "type": "DEVICE_STATUS_TYPE",
                             "confirmationRequired": false,
                             "elicitationRequired": false,
                             "prompts": {}
@@ -88,7 +119,7 @@
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "Dois-je positionner la broche {pin} à {status} ?"
+                        "value": "Dois-je positionner {device} à {status} ?"
                     }
                 ]
             }
