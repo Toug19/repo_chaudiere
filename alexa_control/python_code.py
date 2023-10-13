@@ -36,7 +36,7 @@ def gpio_control(status, device):
     if status in ['on', 'actif']:    GPIO.output(pinNum, GPIO.HIGH)
     if status in ['off', 'inactif']:    GPIO.output(pinNum, GPIO.LOW)
 
-    return statement('Je positionne la pin {} valeur {}'.format(pin, status))
+    return statement('Je positionne {} à la valeur {}'.format(device, status))
 
 if __name__ == '__main__':
     if 'ASK_VERIFY_REQUESTS' in os.environ:
