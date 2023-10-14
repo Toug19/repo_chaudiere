@@ -1,1 +1,3 @@
 Alexa, demande à contrôleur chaudière positionner boucle à actif
+Alexa, demande à contrôleur chaudière positionner chauffe eau à inactif
+Alexa demande à contrôleur chaudière quel est ton état
