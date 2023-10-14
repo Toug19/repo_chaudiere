@@ -6,7 +6,7 @@ from urllib.request import urlopen
 
 
 URL='http://192.168.1.73'
-CONSIGNE_FILE='/home/pi/CONSIGNE_TEMPERATURE.txt'
+CONSIGNE_FILE='/home/pi/repo_chaudiere/pi-chaudiere/CONSIGNE_TEMPERATURE.txt'
 url = "https://www.infoclimat.fr/observations-meteo/temps-reel/toulouse-blagnac/07630.html?"
 per_hour_temperature_regex = 'Minimale sur 1h : (-*\d*.\d)&deg'
 per_hour_temperature_compiled_regex = compile(per_hour_temperature_regex)

@@ -19,6 +19,9 @@ device2gpio["eau chaude"]=21
 device2gpio["boucle"]=16
 device2gpio["e. c. s. "]=16
 
+device2gpio["plancher"]=20
+device2gpio["chauffage"]=20
+
 # set all gpio as output
 for device in device2gpio:
     GPIO.setup(device2gpio[device], GPIO.OUT)
