@@ -3,7 +3,7 @@ Description=Run python code handling alexa request
 After=multi-user.target
 
 [Service]
-ExecStart=/usr/bin/python3 /home/pi/repo_chaudiere/alexa_control/flask_python_code.py
+ExecStart=/usr/bin/python3 /home/pi/repo_chaudiere/pi-chaudiere/flask_python_code.py
 User=pi
 
 [Install]
