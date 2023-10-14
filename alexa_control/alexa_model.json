@@ -41,6 +41,43 @@
                     "samples": [
                         "quel est ton état"
                     ]
+                },
+                {
+                    "name": "Chauffage_on",
+                    "slots": [],
+                    "samples": [
+                        "allume le chauffage"
+                    ]
+                },
+                {
+                    "name": "Chauffage_off",
+                    "slots": [],
+                    "samples": [
+                        "éteint le chauffage"
+                    ]
+                },
+                {
+                    "name": "Consigne_request",
+                    "slots": [],
+                    "samples": [
+                        "quelle est la température de consigne",
+                        "quelle est la consigne"
+                    ]
+                },
+                {
+                    "name": "Consigne_set",
+                    "slots": [
+                        {
+                            "name": "temperature",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "mets {temperature} ",
+                        "mets {temperature} degrés.",
+                        "règle la température sur {temperature} degrés.",
+                        "règle la température sur {temperature} "
+                    ]
                 }
             ],
             "types": [
