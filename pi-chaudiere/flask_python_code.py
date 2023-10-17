@@ -124,6 +124,22 @@ def consigne_set(temperature):
     else:
         return statement('La consigne de température est de {} degrés. Mais le chauffage est arrêté'.format(str(consigne_temperature)))
 
+@ask.intent('Boucle_On')
+def boucle_on():
+    return gpio_control('actif', "boucle")
+
+@ask.intent('Boucle_Off')
+def boucle_off():
+    return gpio_control('inactif', "boucle")
+
+@ask.intent('Chaudiere_On')
+def chaudiere_on():
+    return gpio_control('actif', "chauffe eau")
+
+@ask.intent('Chaudiere_Off')
+def boucle_off():
+    return gpio_control('inactif', "chauffe eau")
+
 
 if __name__ == '__main__':
     if 'ASK_VERIFY_REQUESTS' in os.environ:

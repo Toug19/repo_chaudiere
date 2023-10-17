@@ -78,6 +78,50 @@
                         "règle la température sur {temperature} degrés.",
                         "règle la température sur {temperature} "
                     ]
+                },
+                {
+                    "name": "Boucle_On",
+                    "slots": [],
+                    "samples": [
+                        "Allumer circulation",
+                        "Allumer la circulation",
+                        "Allumer boucle",
+                        "Allumer la boucle"
+                    ]
+                },
+                {
+                    "name": "Boucle_Off",
+                    "slots": [],
+                    "samples": [
+                        "éteindre circulation",
+                        "éteindre la circulation",
+                        "éteindre boucle",
+                        "éteindre la boucle"
+                    ]
+                },
+                {
+                    "name": "Chaudiere_On",
+                    "slots": [],
+                    "samples": [
+                        "allumer chaudière",
+                        "allumer la chaudière",
+                        "allumer chauffe eau",
+                        "allumer le chauffe eau",
+                        "allumer eau chaude",
+                        "allumer l'eau chaude"
+                    ]
+                },
+                {
+                    "name": "Chaudiere_Off",
+                    "slots": [],
+                    "samples": [
+                        "éteindre chaudière",
+                        "éteindre la chaudière",
+                        "éteindre chauffe eau",
+                        "éteindre le chauffe eau",
+                        "éteindre eau chaude",
+                        "éteindre l'eau chaude"
+                    ]
                 }
             ],
             "types": [
