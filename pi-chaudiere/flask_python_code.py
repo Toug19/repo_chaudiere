@@ -18,10 +18,11 @@ alexa_chauffage_cron_job_period = 15
 my_cron = CronTab(user='pi')
 
 boolean2statement = dict()
-boolean2statement[0] = 'inactif'
-boolean2statement[1] = 'actif'
+boolean2statement[0] = 'éteint'
+boolean2statement[1] = 'allumé'
 
 device2gpio=dict()
+device2gpio["chaudière"]=21
 device2gpio["chauffe eau"]=21
 device2gpio["eau chaude"]=21
 
@@ -72,18 +73,23 @@ def gpio_control(status, device):
     if status in ['on', 'actif']:    GPIO.output(pinNum, GPIO.HIGH)
     if status in ['off', 'inactif']:    GPIO.output(pinNum, GPIO.LOW)
 
-    return statement('Je positionne {} à la valeur {}'.format(device, status))
+    return statement('Je positionne {} à {}'.format(device, status))
 
 @ask.intent('GPIOStatusIntent')
 def gpio_status():
+    '''
+    This function reads the state of the GPIO, thus status of chaudière and boucle and plancher
+    '''
     returned_statement = str()
     previous_device_pin = 0
 
     for device in device2gpio:
+       # Same gpio is listed more than 1 time with different name. 
         if previous_device_pin != device2gpio[device]:
-            returned_statement = returned_statement + ' ' + device + ' ' + 'est à ' + boolean2statement[GPIO.input(device2gpio[device])] + '.'
+            returned_statement = returned_statement + ' ' + device + ' ' + 'est ' + boolean2statement[GPIO.input(device2gpio[device])] + '.'
         previous_device_pin = device2gpio[device]
-        
+
+    returned_statement = returned_statement + ' Le chauffage est ' + boolean2statement[check_if_alexa_job_exists()]
     return statement(returned_statement)
 
 @ask.intent('Chauffage_off')
