@@ -46,6 +46,9 @@
                     "name": "Chauffage_on",
                     "slots": [],
                     "samples": [
+                        "allume chauffage",
+                        "allumer le chauffage",
+                        "allumer chauffage",
                         "allume le chauffage"
                     ]
                 },
@@ -53,6 +56,9 @@
                     "name": "Chauffage_off",
                     "slots": [],
                     "samples": [
+                        "éteindre le chauffage",
+                        "éteind chauffage",
+                        "éteindre chauffage",
                         "éteint le chauffage"
                     ]
                 },
@@ -60,6 +66,8 @@
                     "name": "Consigne_request",
                     "slots": [],
                     "samples": [
+                        "à combien tu es",
+                        "a combien est-tu réglé",
                         "quelle est la température de consigne",
                         "quelle est la consigne"
                     ]
@@ -73,6 +81,7 @@
                         }
                     ],
                     "samples": [
+                        "positionne {temperature} degrès",
                         "mets {temperature} ",
                         "mets {temperature} degrés.",
                         "règle la température sur {temperature} degrés.",
@@ -83,6 +92,9 @@
                     "name": "Boucle_On",
                     "slots": [],
                     "samples": [
+                        "allume la circulation",
+                        "allume boucle",
+                        "Allume la boucle",
                         "Allumer circulation",
                         "Allumer la circulation",
                         "Allumer boucle",
@@ -93,6 +105,10 @@
                     "name": "Boucle_Off",
                     "slots": [],
                     "samples": [
+                        "éteind boucle",
+                        "éteind la boucle",
+                        "éteind circulation",
+                        "éteind la circulation",
                         "éteindre circulation",
                         "éteindre la circulation",
                         "éteindre boucle",
@@ -103,6 +119,7 @@
                     "name": "Chaudiere_On",
                     "slots": [],
                     "samples": [
+                        "allume la chaudière",
                         "allumer chaudière",
                         "allumer la chaudière",
                         "allumer chauffe eau",
