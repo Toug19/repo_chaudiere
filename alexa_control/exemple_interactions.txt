@@ -1,7 +1,27 @@
-Alexa, demande à contrôleur chaudière positionner boucle à actif
-Alexa, demande à contrôleur chaudière positionner chauffe eau à inactif
-Alexa demande à contrôleur chaudière quel est ton état
-alexa demande à contrôleur chaudière éteint le chauffage
-alexa demande à contrôleur chaudière allume le chauffage
-Alexa demande à contrôleur chaudière quelle est la température de consigne
+- Avec utérance complexe:
+    - boucle:
+    Alexa, demande à contrôleur chaudière positionner {boucle/ECS} à {actif/inactif}
+    - Eau chaude
+    Alexa, demande à contrôleur chaudière positionner {chaudière/chauffe eau} à {actif/inactif}
+
+- Utérances simples:
+    - Eau chaude:
+      Alexa, demande à contrôleur chaudière allumer chaudière
+      ou
+      Alexa, demande à contrôleur chaudière allumer chauffe eau
+      ou
+      Alexa, demande à contrôleur chaudière allumer eau chaude
+
+
+    - boucle:
+      Alexa, demande à contrôleur chaudière allumer circulation
+      ou
+      Alexa, demande à contrôleur chaudière allumer boucle
+
+    alexa demande à contrôleur chaudière éteint le chauffage
+    alexa demande à contrôleur chaudière allume le chauffage
+    
+    alexa demande à contrôleur chaudière quel est ton état
+
+    alexa demande à contrôleur chaudière quelle est la température de consigne
 
