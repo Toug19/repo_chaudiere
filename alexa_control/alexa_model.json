@@ -92,13 +92,14 @@
                     "name": "Boucle_On",
                     "slots": [],
                     "samples": [
+                        "allume circulation",
                         "allume la circulation",
                         "allume boucle",
-                        "Allume la boucle",
-                        "Allumer circulation",
-                        "Allumer la circulation",
-                        "Allumer boucle",
-                        "Allumer la boucle"
+                        "allume la boucle",
+                        "allumer circulation",
+                        "allumer la circulation",
+                        "allumer boucle",
+                        "allumer la boucle"
                     ]
                 },
                 {
@@ -144,6 +145,16 @@
                         "éteindre le chauffe eau",
                         "éteindre eau chaude",
                         "éteindre l'eau chaude"
+                    ]
+                },
+                {
+                    "name": "AskTemperature",
+                    "slots": [],
+                    "samples": [
+                        "combien il fait",
+                        "quelle est la température",
+                        "quelle est la température dans la maison",
+                        "combien fait-il"
                     ]
                 }
             ],

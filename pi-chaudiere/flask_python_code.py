@@ -5,11 +5,13 @@ from flask_ask import Ask, statement, convert_errors
 import RPi.GPIO as GPIO
 import logging, os
 from crontab import CronTab
+from urllib.request import urlopen
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 CONSIGNE_FILE='/home/pi/repo_chaudiere/pi-chaudiere/CONSIGNE_TEMPERATURE.txt'
+READ_TEMP_URL='http://192.168.1.73'
 
 alexa_chauffage_cron_job_comment = 'Alexa_cron_job_comment'
 alexa_chauffage_cron_job_command = 'python3 /home/pi/repo_chaudiere/pi-chaudiere/2_PLANCHER_AUTO_GPIO20-PIN38.py >> Logs_Chaudiere_2_PLANCHER.log'
@@ -53,10 +55,17 @@ def enable_chauffage_alexa_job():
     job.minute.every(alexa_chauffage_cron_job_period)
     my_cron.write()
 
+def read_temperature_on_webpage(url):
+	return str(round(float(urlopen(url).read().decode('utf8')), 1))
 
 app = Flask(__name__)
 ask = Ask(app, '/')
 logging.getLogger("flask_ask").setLevel(logging.DEBUG)
+
+@ask.intent('AskTemperature')
+def ask_temperature():
+    return statement('Il fait actuellement {} degrès maintenant dans la maison'.format(read_temperature_on_webpage(READ_TEMP_URL)))
+
 
 @ask.intent('GPIOControlIntent', mapping={'status': 'status', 'device': 'device'})
 def gpio_control(status, device):

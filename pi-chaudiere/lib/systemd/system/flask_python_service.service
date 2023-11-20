@@ -5,6 +5,8 @@ After=multi-user.target
 [Service]
 ExecStart=/usr/bin/python3 /home/pi/repo_chaudiere/pi-chaudiere/flask_python_code.py
 User=pi
+Restart=always
+RuntimeMaxSec=7200
 
 [Install]
 WantedBy=multi-user.target
