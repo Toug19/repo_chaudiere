@@ -38,21 +38,21 @@ device2gpio["chauffage"]=20
 for device in device2gpio:
     GPIO.setup(device2gpio[device], GPIO.OUT)
 
-def check_if_alexa_job_exists():
+def check_if_alexa_job_exists(cron_job_comment):
     for job in my_cron:
-        if job.comment == alexa_chauffage_cron_job_comment:
+        if job.comment == cron_job_comment:
             return True
     return False
 
-def disable_chauffage_alexa_job():
+def disable_chauffage_alexa_job(cron_job_comment):
     for job in my_cron:
-        if job.comment == alexa_chauffage_cron_job_comment:
+        if job.comment == cron_job_comment:
             my_cron.remove(job)
             my_cron.write()
 
-def enable_chauffage_alexa_job():
-    job = my_cron.new(command=alexa_chauffage_cron_job_command, comment=alexa_chauffage_cron_job_comment)
-    job.minute.every(alexa_chauffage_cron_job_period)
+def enable_periodic_alexa_job(cron_job_comment, cron_job_command, period):
+    job = my_cron.new(command=cron_job_command, comment=cron_job_comment)
+    job.minute.every(period)
     my_cron.write()
 
 def read_temperature_on_webpage(url):
@@ -98,24 +98,24 @@ def gpio_status():
             returned_statement = returned_statement + ' ' + device + ' ' + 'est ' + boolean2statement[GPIO.input(device2gpio[device])] + '.'
         previous_device_pin = device2gpio[device]
 
-    returned_statement = returned_statement + ' Le chauffage est ' + boolean2statement[check_if_alexa_job_exists()]
+    returned_statement = returned_statement + ' Le chauffage est ' + boolean2statement[check_if_alexa_job_exists(alexa_chauffage_cron_job_comment)]
     return statement(returned_statement)
 
 @ask.intent('Chauffage_off')
 def chauffage_off():
-    if check_if_alexa_job_exists() == False:
+    if check_if_alexa_job_exists(alexa_chauffage_cron_job_comment) == False:
         return statement("Le chauffage était déja éteint")
     else:
-        disable_chauffage_alexa_job()
+        disable_chauffage_alexa_job(alexa_chauffage_cron_job_comment)
         GPIO.output(device2gpio["plancher"], GPIO.LOW)
         return statement('Chauffage éteint')
 
 @ask.intent('Chauffage_on')
 def chauffage_on():
-    if check_if_alexa_job_exists() == True:
+    if check_if_alexa_job_exists(alexa_chauffage_cron_job_comment) == True:
         return statement("Le chauffage était déja allumé")
     else:
-        enable_chauffage_alexa_job()
+        enable_periodic_alexa_job(alexa_chauffage_cron_job_comment, alexa_chauffage_cron_job_command, alexa_chauffage_cron_job_period)
         return statement('Chauffage allumé')
     
 @ask.intent('Consigne_request')
@@ -123,7 +123,7 @@ def consigne_request():
     consigne_file = open(CONSIGNE_FILE, "r")
     consigne_temperature = float(consigne_file.readline())
     consigne_file.close()
-    if check_if_alexa_job_exists() == True:
+    if check_if_alexa_job_exists(alexa_chauffage_cron_job_comment) == True:
         return statement('La consigne de température est de {} degrés'.format(str(consigne_temperature)))
     else:
         return statement('La consigne de température est de {} degrés. Mais le chauffage est arrêté'.format(str(consigne_temperature)))
@@ -134,7 +134,7 @@ def consigne_set(temperature):
     consigne_file = open(CONSIGNE_FILE, "w")
     consigne_file.write(str(consigne_temperature) + '\n')
     consigne_file.close()
-    if check_if_alexa_job_exists() == True:
+    if check_if_alexa_job_exists(alexa_chauffage_cron_job_comment) == True:
         return statement('La consigne de température est de {} degrés'.format(str(consigne_temperature)))
     else:
         return statement('La consigne de température est de {} degrés. Mais le chauffage est arrêté'.format(str(consigne_temperature)))
