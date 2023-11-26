@@ -1,0 +1,11 @@
+[Unit]
+Description=Run ngrok creating the tunnel
+After=multi-user.target
+
+[Service]
+ExecStart=ngrok http 5000 --domain=skylark-hip-amazingly.ngrok-free.app
+User=pi
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
