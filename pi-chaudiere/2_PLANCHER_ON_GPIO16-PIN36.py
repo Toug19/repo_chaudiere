@@ -8,5 +8,5 @@ GPIO.setup(36,GPIO.OUT)
 GPIO.output(36,GPIO.HIGH)
 current_date=datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-#Log Format: Timestamp;Action;GPIO16_STATE;PIN36_STATE;LED3_STATE
-print(current_date + ";Allumage_Circu_ECS;1;1;OFF")
+#Log Format: Timestamp;Action;GPIO16_STATE;PIN36_STATE;LED_STATE
+print(current_date + ";Allumage_Plancher;GPIO16=1;PIN36=1;OFF")

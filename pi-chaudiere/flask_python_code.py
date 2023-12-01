@@ -7,7 +7,7 @@ import logging, os
 from crontab import CronTab
 from urllib.request import urlopen
 
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 
 CONSIGNE_FILE='/home/pi/repo_chaudiere/pi-chaudiere/CONSIGNE_TEMPERATURE.txt'
@@ -24,15 +24,15 @@ boolean2statement[0] = 'éteint'
 boolean2statement[1] = 'allumé'
 
 device2gpio=dict()
-device2gpio["chaudière"]=21
-device2gpio["chauffe eau"]=21
-device2gpio["eau chaude"]=21
+device2gpio["chaudière"]=40
+device2gpio["chauffe eau"]=40
+device2gpio["eau chaude"]=40
 
-device2gpio["boucle"]=16
-device2gpio["e. c. s. "]=16
+device2gpio["boucle"]=38
+device2gpio["e. c. s. "]=38
 
-device2gpio["plancher"]=20
-device2gpio["chauffage"]=20
+device2gpio["plancher"]=36
+device2gpio["chauffage"]=36
 
 # set all gpio as output
 for device in device2gpio:
