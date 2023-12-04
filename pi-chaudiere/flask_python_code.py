@@ -14,7 +14,7 @@ CONSIGNE_FILE='/home/pi/repo_chaudiere/pi-chaudiere/CONSIGNE_TEMPERATURE.txt'
 READ_TEMP_URL='http://192.168.1.73'
 
 alexa_chauffage_cron_job_comment = 'Alexa_cron_job_comment'
-alexa_chauffage_cron_job_command = 'python3 /home/pi/repo_chaudiere/pi-chaudiere/2_PLANCHER_AUTO_GPIO20-PIN38.py >> Logs_Chaudiere_2_PLANCHER.log'
+alexa_chauffage_cron_job_command = 'python3 /home/pi/repo_chaudiere/pi-chaudiere/2_PLANCHER_AUTO_GPIO16-PIN36.py >> Logs_Chaudiere_2_PLANCHER.log'
 alexa_chauffage_cron_job_period = 15
 
 my_cron = CronTab(user='pi')
