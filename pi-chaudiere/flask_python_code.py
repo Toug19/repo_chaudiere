@@ -84,6 +84,7 @@ def gpio_control(status, device):
 
     return statement('Je positionne {} à {}'.format(device, status))
 
+
 @ask.intent('GPIOStatusIntent')
 def gpio_status():
     '''
@@ -154,6 +155,12 @@ def chaudiere_on():
 @ask.intent('Chaudiere_Off')
 def boucle_off():
     return gpio_control('inactif', "chauffe eau")
+
+@ask.intent('Chaudiere_Boucle_Off')
+def boucle_chaudiere_off():
+    gpio_control('inactif', "boucle")
+    gpio_control('inactif', "chauffe eau")
+    return statement('Boucle et chauffe eau arrêté')
 
 
 if __name__ == '__main__':

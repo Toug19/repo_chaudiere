@@ -46,6 +46,8 @@
                     "name": "Chauffage_on",
                     "slots": [],
                     "samples": [
+                        "activer chauffage",
+                        "activer le chauffage",
                         "allume chauffage",
                         "allumer le chauffage",
                         "allumer chauffage",
@@ -56,6 +58,8 @@
                     "name": "Chauffage_off",
                     "slots": [],
                     "samples": [
+                        "arrêter chauffage",
+                        "arrêter le chauffage",
                         "éteindre le chauffage",
                         "éteind chauffage",
                         "éteindre chauffage",
@@ -155,6 +159,13 @@
                         "quelle est la température",
                         "quelle est la température dans la maison",
                         "combien fait-il"
+                    ]
+                },
+                {
+                    "name": "Chaudiere_Boucle_Off",
+                    "slots": [],
+                    "samples": [
+                        "stop tout"
                     ]
                 }
             ],
