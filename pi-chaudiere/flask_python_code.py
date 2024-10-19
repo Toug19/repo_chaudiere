@@ -152,9 +152,12 @@ def chaudiere_on():
     return gpio_control('actif', "chauffe eau")
 
 @ask.intent('Chaudiere_Off')
-def boucle_off():
+def chaudiere_off():
     return gpio_control('inactif', "chauffe eau")
 
+@ask.intent('Finish_charge_at', mapping={'percent': 'PERCENT', 'hour': 'HOUR', 'date': 'DATE'})
+def finish_charge_at(percent, hour, date):
+    return statement('Ordre reçu: {} pourcents à {} {}'.format(str(percent), str(hour), str(date)))
 
 if __name__ == '__main__':
     if 'ASK_VERIFY_REQUESTS' in os.environ:
