@@ -17,15 +17,16 @@ def get_soc_display():
         return value
     return "Error fetching data"
 
-# Fonction pour obtenir le dernier SOC (en pourcentage)
+# Fonction pour obtenir la date unix de la dernière lecture du SOC
 def get_last_soc():
     response = _fetch_data()
     if response:
         value = response.get('last_soc', None)
         if value is None:
             return "last_soc value not found"
-        return value  # Retourne le pourcentage de charge
+        return value  #retourne la date unix timestamp
     return "Error fetching data"
+
 
 # Fonction pour obtenir le dernier SOC sous une forme lisible
 def get_last_soc_readable():

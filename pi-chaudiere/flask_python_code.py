@@ -192,10 +192,6 @@ def finish_charge_at(percent, hour, date):
 
     # Comparaison avec maintenant pour savoir si on peut encore programmer la charge
     if start_time > datetime.now():
-
-        # Obtenir la date actuelle
-        today = datetime.now().date()
-        tomorrow = today + timedelta(days=1)
         
         disable_all_alexa_jobs('CRON job powering')
         # Planifier la charge via cron pour démarrer à l'heure calculée
@@ -204,19 +200,10 @@ def finish_charge_at(percent, hour, date):
         # Planifier l'arrêt de la charge à l'heure cible
         enable_alexa_job(alexa_stop_charge_cron_job_comment, alexa_stop_charge_cron_job_command, target_datetime)
 
+        # Optimisation du parlé des dates
+        readable_start_time = format_date(start_time)
+        readable_end_time = format_date(target_datetime)
 
-        # Comparer la date de début de la charge à "demain"
-        if start_time.date() == tomorrow:
-            readable_start_time = f"demain à {format_time(start_time)}"
-        else:
-            readable_start_time = f"{format_time(start_time)} le {start_time.strftime('%d %B %Y')}"
-
-        # Comparer la date de fin de la charge à "demain"
-        if target_datetime.date() == tomorrow:
-            readable_end_time = f"demain à {format_time(target_datetime)}"
-        else:
-            readable_end_time = f"{format_time(target_datetime)} le {target_datetime.strftime('%d %B %Y')}"
-        
         return statement(f"Je commencerai la charge {readable_start_time} pour atteindre {percent}% {readable_end_time}.")
         
     else:
@@ -225,8 +212,8 @@ def finish_charge_at(percent, hour, date):
 @ask.intent('SOC_get')
 def tell_charge_State():
     soc = evnotify_info.get_soc_display()
-    soc_date = evnotify_info.get_last_soc_readable()
-    return statement(f"Le pourcentage de charge actuel est de {soc}% lu à {soc_date} .")
+    soc_date = evnotify_info.get_last_soc()
+    return statement(f"Le pourcentage de charge actuel est de {soc}% lu {format_date(datetime.fromtimestamp(soc_date))} .")
 
 ## Delete jobs containing some string
 def disable_all_alexa_jobs(cron_title_partial):
@@ -242,6 +229,22 @@ def format_time(dt):
     hour = int(dt.strftime('%H'))  # On utilise 'int' pour enlever le zéro initial
     minute = dt.strftime('%M')
     return f"{hour} heures {minute}"
+
+def format_date(datetime_not_human):
+    # Obtenir la date actuelle
+    today = datetime.now().date()
+    tomorrow = today + timedelta(days=1)
+    yesterday = today - timedelta(days=1)
+    # Comparer la date de début de la charge à "demain"
+    if datetime_not_human.date() == tomorrow:
+        return f"demain à {format_time(datetime_not_human)}"
+    elif datetime_not_human.date() == yesterday:
+        return f"hier à {format_time(datetime_not_human)}"
+    elif datetime_not_human.date() == today:
+        return f"aujourd'hui à {format_time(datetime_not_human)}"
+    else:
+        return f"le {format_time(datetime_not_human)} le {datetime_not_human.strftime('%d %B %Y')}"
+
 
 if __name__ == '__main__':
     if 'ASK_VERIFY_REQUESTS' in os.environ:
