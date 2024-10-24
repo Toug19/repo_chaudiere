@@ -1,0 +1,64 @@
+# Edit this file to introduce tasks to be run by cron.
+#
+# Each task to run has to be defined through a single line
+# indicating with different fields when the task will be run
+# and what command to run for the task
+#
+# To define the time you can provide concrete values for
+# minute (m), hour (h), day of month (dom), month (mon),
+# and day of week (dow) or use '*' in these fields (for 'any').
+#
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+#
+# Output of the crontab jobs (including errors) is sent through
+# email to the user the crontab file belongs to (unless redirected).
+#
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+#
+# For more information see the manual pages of crontab(5) and cron(8)
+#
+# m comme Minute
+# h : Hour
+# dom: Day Of Month
+# mon: Month
+# dow: day of week
+# m h  dom mon dow   command
+30 17 * * * python3 /home/pi/repo_chaudiere/pi-chaudiere/1_CHAUDIERE_ON_GPIO21-PIN40.py >> Logs_Chaudiere_1_CHAUDIERE.log
+20 20 * * * python3 /home/pi/repo_chaudiere/pi-chaudiere/1_CHAUDIERE_OFF_GPIO21-PIN40.py  >> Logs_Chaudiere_1_CHAUDIERE.log
+50 17 * * * python3 /home/pi/repo_chaudiere/pi-chaudiere/3_CIRCULATEUR-ECS_ON_GPIO20-PIN38.py  >> Logs_Chaudiere_3_ECS.log
+30 21 * * * python3 /home/pi/repo_chaudiere/pi-chaudiere/3_CIRCULATEUR-ECS_OFF_GPIO20-PIN38.py  >> Logs_Chaudiere_3_ECS.log
+# Allumage exceptionnel:
+# 0 8 27 10 5 python3 /home/pi/repo_chaudiere/pi-chaudiere/1_CHAUDIERE_ON_GPIO21-PIN40.py >> Logs_Chaudiere_1_CHAUDIERE.log
+# 30 9 27 10 5 python3 /home/pi/repo_chaudiere/pi-chaudiere/1_CHAUDIERE_OFF_GPIO21-PIN40.py >> Logs_Chaudiere_1_CHAUDIERE.log
+# 20 8 27 10 5 python3 /home/pi/repo_chaudiere/pi-chaudiere/3_CIRCULATEUR-ECS_ON_GPIO20-PIN38.py  >> Logs_Chaudiere_3_ECS.log
+# 50 9 27 10 5 python3 /home/pi/repo_chaudiere/pi-chaudiere/3_CIRCULATEUR-ECS_OFF_GPIO20-PIN38.py  >> Logs_Chaudiere_3_ECS.log
+# Menage
+10 13 * * 5 python3 /home/pi/repo_chaudiere/pi-chaudiere/1_CHAUDIERE_ON_GPIO21-PIN40.py >> Logs_Chaudiere_1_CHAUDIERE.log
+30 15 * * 5 python3 /home/pi/repo_chaudiere/pi-chaudiere/1_CHAUDIERE_OFF_GPIO21-PIN40.py >> Logs_Chaudiere_1_CHAUDIERE.log
+30 13 * * 5 python3 /home/pi/repo_chaudiere/pi-chaudiere/3_CIRCULATEUR-ECS_ON_GPIO20-PIN38.py  >> Logs_Chaudiere_3_ECS.log
+50 15 * * 5 python3 /home/pi/repo_chaudiere/pi-chaudiere/3_CIRCULATEUR-ECS_OFF_GPIO20-PIN38.py  >> Logs_Chaudiere_3_ECS.log
+# Matins
+# 45 6 * * 1-5 python3 /home/pi/repo_chaudiere/pi-chaudiere/3_CIRCULATEUR-ECS_ON_GPIO20-PIN38.py  >> Logs_Chaudiere_3_ECS.log
+# 10 8 * * 1-5 python3 /home/pi/repo_chaudiere/pi-chaudiere/3_CIRCULATEUR-ECS_OFF_GPIO20-PIN38.py  >> Logs_Chaudiere_3_ECS.log
+# 45 7 * * 0,6 python3 /home/pi/repo_chaudiere/pi-chaudiere/3_CIRCULATEUR-ECS_ON_GPIO20-PIN38.py  >> Logs_Chaudiere_3_ECS.log
+# 10 9 * * 0,6 python3 /home/pi/repo_chaudiere/pi-chaudiere/3_CIRCULATEUR-ECS_OFF_GPIO20-PIN38.py  >> Logs_Chaudiere_3_ECS.log
+# */15 * * * * python3 /home/pi/repo_chaudiere/pi-chaudiere/2_PLANCHER_AUTO_GPIO16-PIN36.py >> Logs_Chaudiere_2_PLANCHER.log # Manual added job
+# 0 6 29 11 3 echo '18.5' > /home/pi/repo_chaudiere/pi-chaudiere/CONSIGNE_TEMPERATURE.txt
+# 0 22 * * * echo '19.6' > /home/pi/repo_chaudiere/pi-chaudiere/CONSIGNE_TEMPERATURE.txt
+# 0 6 * * * echo '19.3' > /home/pi/repo_chaudiere/pi-chaudiere/CONSIGNE_TEMPERATURE.txt
+
+
+
+
+
+
+
+
+
+36 1 25 10 * python3 /home/pi/repo_chaudiere/pi-chaudiere/tapo_manager.py turnOn # Alexa CRON job powering ON the plug
+
+36 1 25 10 * python3 /home/pi/repo_chaudiere/pi-chaudiere/tapo_manager.py turnOn # Alexa CRON job powering ON the plug
+0 8 25 10 * python3 /home/pi/repo_chaudiere/pi-chaudiere/tapo_manager.py turnOff # Alexa CRON job powering OFF the plug

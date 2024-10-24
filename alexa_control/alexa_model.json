@@ -198,6 +198,14 @@
                         "Quel est le pourcentage de la batterie",
                         "Quel est l'état de la batterie"
                     ]
+                },
+                {
+                    "name": "Cancel_Charge",
+                    "slots": [],
+                    "samples": [
+                        "ne pas charger",
+                        "abandonner la charge"
+                    ]
                 }
             ],
             "types": [

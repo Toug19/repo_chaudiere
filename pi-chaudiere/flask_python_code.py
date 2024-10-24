@@ -173,6 +173,7 @@ def chaudiere_off():
 
 @ask.intent('Finish_charge_at', mapping={'percent': 'PERCENT', 'hour': 'HOUR', 'date': 'DATE'})
 def finish_charge_at(percent, hour, date):
+    cancel_charge()
     current_soc = evnotify_info.get_soc_display()
     try :
         float(current_soc)
@@ -193,7 +194,6 @@ def finish_charge_at(percent, hour, date):
     # Comparaison avec maintenant pour savoir si on peut encore programmer la charge
     if start_time > datetime.now():
         
-        disable_all_alexa_jobs('CRON job powering')
         # Planifier la charge via cron pour démarrer à l'heure calculée
         enable_alexa_job(alexa_start_charge_cron_job_comment, alexa_start_charge_cron_job_command, start_time)
 
@@ -215,6 +215,12 @@ def tell_charge_State():
     soc_date = evnotify_info.get_last_soc()
     return statement(f"Le pourcentage de charge actuel est de {soc}% lu {format_date(datetime.fromtimestamp(soc_date))} .")
 
+@ask.intent('Cancel_Charge')
+def cancel_charge():
+    disable_all_alexa_jobs('CRON job powering')
+    return statement("Charge abandonnée")
+
+
 ## Delete jobs containing some string
 def disable_all_alexa_jobs(cron_title_partial):
     # Parcours de tous les jobs cron
@@ -227,8 +233,11 @@ def disable_all_alexa_jobs(cron_title_partial):
 # Fonction pour convertir l'heure au format "humain" (supprimer le zéro initial)
 def format_time(dt):
     hour = int(dt.strftime('%H'))  # On utilise 'int' pour enlever le zéro initial
-    minute = dt.strftime('%M')
-    return f"{hour} heures {minute}"
+    minute = int(dt.strftime('%M'))
+    if minute !=0:
+        return f"{str(hour)} heures {str(minute)}"
+    else:
+        return f"{str(hour)} heures"
 
 def format_date(datetime_not_human):
     # Obtenir la date actuelle
