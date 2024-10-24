@@ -3,9 +3,10 @@
 from flask import Flask
 from flask_ask import Ask, statement, convert_errors
 import RPi.GPIO as GPIO
-import logging, os
+import logging, os, evnotify_info, datetime
 from crontab import CronTab
 from urllib.request import urlopen
+from datetime import datetime, timedelta
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
@@ -13,9 +14,15 @@ GPIO.setwarnings(False)
 CONSIGNE_FILE='/home/pi/repo_chaudiere/pi-chaudiere/CONSIGNE_TEMPERATURE.txt'
 READ_TEMP_URL='http://192.168.1.73'
 
-alexa_chauffage_cron_job_comment = 'Alexa_cron_job_comment'
+alexa_chauffage_cron_job_comment = 'Alexa CRON job for heater'
 alexa_chauffage_cron_job_command = 'python3 /home/pi/repo_chaudiere/pi-chaudiere/2_PLANCHER_AUTO_GPIO16-PIN36.py >> Logs_Chaudiere_2_PLANCHER.log'
 alexa_chauffage_cron_job_period = 15
+
+alexa_start_charge_cron_job_comment = 'Alexa CRON job powering ON the plug'
+alexa_start_charge_cron_job_command = 'python3 /home/pi/repo_chaudiere/pi-chaudiere/tapo_manager.py turnOn'
+
+alexa_stop_charge_cron_job_comment = 'Alexa CRON job powering OFF the plug'
+alexa_stop_charge_cron_job_command = 'python3 /home/pi/repo_chaudiere/pi-chaudiere/tapo_manager.py turnOff'
 
 my_cron = CronTab(user='pi')
 
@@ -33,6 +40,10 @@ device2gpio["e. c. s. "]=38
 
 device2gpio["plancher"]=36
 device2gpio["chauffage"]=36
+
+CAR_BATTERY_SIZE_KWH = float(64)
+CAR_CHARGING_SPEED_KW = float(2.7)
+
 
 # set all gpio as output
 for device in device2gpio:
@@ -53,6 +64,11 @@ def disable_chauffage_alexa_job(cron_job_comment):
 def enable_periodic_alexa_job(cron_job_comment, cron_job_command, period):
     job = my_cron.new(command=cron_job_command, comment=cron_job_comment)
     job.minute.every(period)
+    my_cron.write()
+
+def enable_alexa_job(cron_job_comment, cron_job_command, date_run):
+    job = my_cron.new(command=cron_job_command, comment=cron_job_comment)
+    job.setall(date_run)
     my_cron.write()
 
 def read_temperature_on_webpage(url):
@@ -157,7 +173,75 @@ def chaudiere_off():
 
 @ask.intent('Finish_charge_at', mapping={'percent': 'PERCENT', 'hour': 'HOUR', 'date': 'DATE'})
 def finish_charge_at(percent, hour, date):
-    return statement('Ordre reçu: {} pourcents à {} {}'.format(str(percent), str(hour), str(date)))
+    current_soc = evnotify_info.get_soc_display()
+    try :
+        float(current_soc)
+    except ValueError:
+        return statement("Impossible de récupérer l'état de la la batterie:" + current_soc)
+    
+    kwh_to_charge = ((float(percent) - current_soc) / 100) * CAR_BATTERY_SIZE_KWH
+
+    if kwh_to_charge <= 0:
+        return statement(f"La batterie est déjà au-dessus de {percent}%, pas besoin de charger.")
+    
+   # Convert end time in datetime format 
+    target_datetime = datetime.strptime(f"{date} {hour}", "%Y-%m-%d %H:%M")
+
+    charge_duration_hours = kwh_to_charge / CAR_CHARGING_SPEED_KW
+    start_time = target_datetime - timedelta(hours=charge_duration_hours)
+
+    # Comparaison avec maintenant pour savoir si on peut encore programmer la charge
+    if start_time > datetime.now():
+
+        # Obtenir la date actuelle
+        today = datetime.now().date()
+        tomorrow = today + timedelta(days=1)
+        
+        disable_all_alexa_jobs('CRON job powering')
+        # Planifier la charge via cron pour démarrer à l'heure calculée
+        enable_alexa_job(alexa_start_charge_cron_job_comment, alexa_start_charge_cron_job_command, start_time)
+
+        # Planifier l'arrêt de la charge à l'heure cible
+        enable_alexa_job(alexa_stop_charge_cron_job_comment, alexa_stop_charge_cron_job_command, target_datetime)
+
+
+        # Comparer la date de début de la charge à "demain"
+        if start_time.date() == tomorrow:
+            readable_start_time = f"demain à {format_time(start_time)}"
+        else:
+            readable_start_time = f"{format_time(start_time)} le {start_time.strftime('%d %B %Y')}"
+
+        # Comparer la date de fin de la charge à "demain"
+        if target_datetime.date() == tomorrow:
+            readable_end_time = f"demain à {format_time(target_datetime)}"
+        else:
+            readable_end_time = f"{format_time(target_datetime)} le {target_datetime.strftime('%d %B %Y')}"
+        
+        return statement(f"Je commencerai la charge {readable_start_time} pour atteindre {percent}% {readable_end_time}.")
+        
+    else:
+        return statement("Il est déjà trop tard pour commencer la charge.")
+
+@ask.intent('SOC_get')
+def tell_charge_State():
+    soc = evnotify_info.get_soc_display()
+    soc_date = evnotify_info.get_last_soc_readable()
+    return statement(f"Le pourcentage de charge actuel est de {soc}% lu à {soc_date} .")
+
+## Delete jobs containing some string
+def disable_all_alexa_jobs(cron_title_partial):
+    # Parcours de tous les jobs cron
+    for job in my_cron:
+        # Supprime les jobs ayant un commentaire commençant par "Alexa"
+        if cron_title_partial in job.comment:
+            my_cron.remove(job)
+            my_cron.write()
+
+# Fonction pour convertir l'heure au format "humain" (supprimer le zéro initial)
+def format_time(dt):
+    hour = int(dt.strftime('%H'))  # On utilise 'int' pour enlever le zéro initial
+    minute = dt.strftime('%M')
+    return f"{hour} heures {minute}"
 
 if __name__ == '__main__':
     if 'ASK_VERIFY_REQUESTS' in os.environ:

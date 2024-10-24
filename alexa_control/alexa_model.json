@@ -187,6 +187,17 @@
                     "samples": [
                         "avoir {PERCENT} pourcents à {HOUR} {DATE}"
                     ]
+                },
+                {
+                    "name": "SOC_get",
+                    "slots": [],
+                    "samples": [
+                        "Quel est le pourcentage",
+                        "Quel est le S.O.C. de la batterie",
+                        "Quel est le S.O.C.",
+                        "Quel est le pourcentage de la batterie",
+                        "Quel est l'état de la batterie"
+                    ]
                 }
             ],
             "types": [
