@@ -203,8 +203,23 @@
                     "name": "Cancel_Charge",
                     "slots": [],
                     "samples": [
+                        "annuler la charge",
                         "ne pas charger",
                         "abandonner la charge"
+                    ]
+                },
+                {
+                    "name": "Daily_charge",
+                    "slots": [
+                        {
+                            "name": "DURATION",
+                            "type": "AMAZON.TIME"
+                        }
+                    ],
+                    "samples": [
+                        "Charger la nuit pendant {DURATION}",
+                        "Définir une charge journalière de {DURATION}",
+                        "Faire une charge journalière de {DURATION}"
                     ]
                 }
             ],
