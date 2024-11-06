@@ -46,6 +46,8 @@
                     "name": "Chauffage_on",
                     "slots": [],
                     "samples": [
+                        "activer chauffage",
+                        "activer le chauffage",
                         "allume chauffage",
                         "allumer le chauffage",
                         "allumer chauffage",
@@ -56,6 +58,8 @@
                     "name": "Chauffage_off",
                     "slots": [],
                     "samples": [
+                        "arrêter chauffage",
+                        "arrêter le chauffage",
                         "éteindre le chauffage",
                         "éteind chauffage",
                         "éteindre chauffage",
@@ -156,6 +160,67 @@
                         "quelle est la température dans la maison",
                         "combien fait-il"
                     ]
+                },
+                {
+                    "name": "Chaudiere_Boucle_Off",
+                    "slots": [],
+                    "samples": [
+                        "stop tout"
+                    ]
+                },
+                {
+                    "name": "Finish_charge_at",
+                    "slots": [
+                        {
+                            "name": "PERCENT",
+                            "type": "AMAZON.NUMBER"
+                        },
+                        {
+                            "name": "HOUR",
+                            "type": "AMAZON.TIME"
+                        },
+                        {
+                            "name": "DATE",
+                            "type": "AMAZON.DATE"
+                        }
+                    ],
+                    "samples": [
+                        "avoir {PERCENT} pourcents à {HOUR} {DATE}"
+                    ]
+                },
+                {
+                    "name": "SOC_get",
+                    "slots": [],
+                    "samples": [
+                        "Quel est le pourcentage",
+                        "Quel est le S.O.C. de la batterie",
+                        "Quel est le S.O.C.",
+                        "Quel est le pourcentage de la batterie",
+                        "Quel est l'état de la batterie"
+                    ]
+                },
+                {
+                    "name": "Cancel_Charge",
+                    "slots": [],
+                    "samples": [
+                        "annuler la charge",
+                        "ne pas charger",
+                        "abandonner la charge"
+                    ]
+                },
+                {
+                    "name": "Daily_charge",
+                    "slots": [
+                        {
+                            "name": "DURATION",
+                            "type": "AMAZON.TIME"
+                        }
+                    ],
+                    "samples": [
+                        "Charger la nuit pendant {DURATION}",
+                        "Définir une charge journalière de {DURATION}",
+                        "Faire une charge journalière de {DURATION}"
+                    ]
                 }
             ],
             "types": [
@@ -240,6 +305,36 @@
                             "prompts": {}
                         }
                     ]
+                },
+                {
+                    "name": "Finish_charge_at",
+                    "confirmationRequired": true,
+                    "prompts": {
+                        "confirmation": "Confirm.Intent.1498424554072"
+                    },
+                    "slots": [
+                        {
+                            "name": "PERCENT",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "HOUR",
+                            "type": "AMAZON.TIME",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "DATE",
+                            "type": "AMAZON.DATE",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
                 }
             ],
             "delegationStrategy": "ALWAYS"
@@ -251,6 +346,15 @@
                     {
                         "type": "PlainText",
                         "value": "Dois-je positionner {device} à {status} ?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Intent.1498424554072",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Dois-je préparer la charge pour avoir {PERCENT} pourcents {DATE} {HOUR}"
                     }
                 ]
             }
