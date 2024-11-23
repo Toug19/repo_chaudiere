@@ -221,6 +221,15 @@
                         "Définir une charge journalière de {DURATION}",
                         "Faire une charge journalière de {DURATION}"
                     ]
+                },
+                {
+                    "name": "GetPVInfo",
+                    "slots": [],
+                    "samples": [
+                        "production solaire",
+                        "combien ça produit",
+                        "quelle est la production solaire"
+                    ]
                 }
             ],
             "types": [
