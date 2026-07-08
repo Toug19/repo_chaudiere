@@ -130,6 +130,7 @@ def process_photovoltaic_data(file_path=PV_info_log_file):
 
 
 app = Flask(__name__)
+app.config['ASK_VERIFY_REQUESTS'] = False
 ask = Ask(app, '/')
 logging.getLogger("flask_ask").setLevel(logging.DEBUG)
 
